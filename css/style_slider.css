@@ -1,0 +1,128 @@
+body {
+  background-color: #339999;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider {
+  position: relative;
+  width: 500px;
+  height: 400px;
+}
+
+.slider__wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slides {
+  display: flex;
+  position: relative;
+  width: 6000px;
+  left: -500px;
+}
+
+.slide__element {
+  margin: 0 10px;
+  width: 480px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffcf47;
+  border-radius: 4px;
+  color: #339999;
+  font-size: 44px;
+}
+
+.button {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  top: -57%;
+}
+
+.slider__button-prev,
+.slider__button-next {
+  background-size: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.slider__button-next {
+  background-image: url('https://cdn1.iconfinder.com/data/icons/unicons-line-vol-1/24/angle-right-b-256.png');
+  left: 83%;
+}
+
+.slider__button-prev {
+  background-image: url('https://cdn1.iconfinder.com/data/icons/unicons-line-vol-1/24/angle-left-b-512.png');
+  right: 3%;
+}
+
+.slider__button-prev:active,
+.slider__button-next:active {
+  transform: scale(0.8);
+}
+
+.slider__dots {
+  list-style: none;
+  position: absolute;
+  width: 100%;
+  bottom: -50px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dots__button {
+  display: block;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.dots__button::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  content: '•';
+  text-align: center;
+  color: black;
+  opacity: 0.4;
+}
+
+.li-active .dots__button::before {
+  opacity: 1;
+}
