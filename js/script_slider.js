@@ -16,24 +16,20 @@ const cloneLast = lastSlide.cloneNode(true);
 slides.appendChild(cloneFirst);
 slides.insertBefore(cloneLast, firstSlide);
 
+const FORWARD = true;
+const BACK = false;
+const scrollTime = 200;
+
 let count = 0;
-let ind = 0;
-let posInitial;
-let allowShift = true;
-let isSlideScroll = false;
 let activeDotIndex = 0;
+let posInitial;
+let isSlideScroll = false;
 
 buttonPrev.addEventListener('click', () => {
-  if (isSlideScroll === false) {
-    slideScroll(0);
-    dots(0);
-  }
+  slideScrollAndSelect(BACK);
 });
 buttonNext.addEventListener('click', () => {
-  if (isSlideScroll === false) {
-    slideScroll(1);
-    dots(1);
-  }
+  slideScrollAndSelect(FORWARD);
 });
 
 dotsButton.forEach((element, index) =>
@@ -47,16 +43,21 @@ dotsButton.forEach((element, index) =>
 dotsButton.forEach((element, index) =>
   element.addEventListener('click', () => {
     if (index > count && isSlideScroll === false) {
-      slideScrollToSelectedVal(index, 1);
-      console.log(slides.offsetLeft);
+      slideScrollToSelectedVal(index, FORWARD);
     } else if (index < count && isSlideScroll === false) {
-      slideScrollToSelectedVal(index, 0);
-      console.log(slides.offsetLeft);
+      slideScrollToSelectedVal(index, BACK);
     }
   }),
 );
 
-function dots(dir) {
+function slideScrollAndSelect(dir) {
+  if (isSlideScroll === false) {
+    slideScroll(dir);
+    dotsSelection(dir);
+  }
+}
+
+function dotsSelection(dir) {
   dotsElement[activeDotIndex].classList.remove('li-active');
   activeDotIndex = (dotsElement.length + activeDotIndex + (dir ? +1 : -1)) % dotsElement.length;
   dotsElement[activeDotIndex].classList.add('li-active');
@@ -73,7 +74,7 @@ function slideScroll(dir) {
   let interval = setInterval(function () {
     posInitial = slides.offsetLeft;
     let timePassed = Date.now() - start;
-    if (timePassed >= 200) {
+    if (timePassed >= scrollTime) {
       clearInterval(interval);
       isSlideScroll = false;
       return;
@@ -84,7 +85,7 @@ function slideScroll(dir) {
       slides.style.left = posInitial + 50 + 'px';
     }
   }, 19);
-  setTimeout(scrollToInitialValue, 201);
+  setTimeout(scrollToInitialValue, scrollTime);
 }
 
 function slideScrollToSelectedVal(index, dir) {
@@ -93,11 +94,8 @@ function slideScrollToSelectedVal(index, dir) {
     posInitial = slides.offsetLeft;
     let distancePassed = -(index + 1) * slideSize;
     let posCurrent = Number.parseInt(slides.style.left);
-    if (
-      (dir === 1 && posCurrent <= distancePassed) ||
-      (dir === 0 && posCurrent >= distancePassed)
-    ) {
-      count = -distancePassed / 500 - 1;
+    if ((dir && posCurrent <= distancePassed) || (!dir && posCurrent >= distancePassed)) {
+      count = -distancePassed / slideSize - 1;
       isSlideScroll = false;
       clearInterval(interval);
       return;
@@ -108,7 +106,7 @@ function slideScrollToSelectedVal(index, dir) {
       slides.style.left = posInitial + 50 + 'px';
     }
   }, 19);
-  setTimeout(scrollToInitialValue, 201);
+  setTimeout(scrollToInitialValue, scrollTime);
 }
 
 function scrollToInitialValue() {
