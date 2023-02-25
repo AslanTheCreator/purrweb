@@ -53,11 +53,11 @@ dotsButton.forEach((element, index) =>
 function slideScrollAndSelect(dir) {
   if (isSlideScroll === false) {
     slideScroll(dir);
-    dotsSelection(dir);
+    selectDots(dir);
   }
 }
 
-function dotsSelection(dir) {
+function selectDots(dir) {
   dotsElement[activeDotIndex].classList.remove('li-active');
   activeDotIndex = (dotsElement.length + activeDotIndex + (dir ? +1 : -1)) % dotsElement.length;
   dotsElement[activeDotIndex].classList.add('li-active');
